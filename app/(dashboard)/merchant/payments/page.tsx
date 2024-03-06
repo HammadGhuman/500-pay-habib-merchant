@@ -1,4 +1,5 @@
 import CardComponent from "@/components/CardComponent";
+import TableComponent from "@/components/TableComponent";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
@@ -22,7 +23,11 @@ const page = () => {
             </Button>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col gap-10">
         <CardComponent />
+
+        <TableComponent />
       </div>
     </div>
   );
