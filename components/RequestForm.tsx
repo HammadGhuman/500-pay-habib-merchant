@@ -16,8 +16,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { requestFormSchema } from "@/lib/validator";
 import Dropdown from "./Dropdown";
+import { createPaymentRequest } from "@/actions/action";
 
-const RequestForm = () => {
+type User = {
+  id: number;
+  username: string;
+  bankName: string;
+  accountNumber: string;
+  email: string;
+  phoneNumber: string;
+  password: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type Props = {
+  user: User;
+};
+
+const RequestForm = ({ user }: Props) => {
   const initialValues = {
     customerName: "",
     customerEmail: "",
@@ -32,7 +49,14 @@ const RequestForm = () => {
     defaultValues: initialValues,
   });
 
-  function onSubmit(values: z.infer<typeof requestFormSchema>) {}
+  async function onSubmit(values: z.infer<typeof requestFormSchema>) {
+    console.log(user.id);
+    console.log(values);
+    const newValues = { ...values, customerBankName: "Meezan" };
+    console.log(newValues);
+    const data = await createPaymentRequest(values, user.id);
+    console.log(data);
+  }
   return (
     <div className="bg-[#FAFAFA] rounded-md px-5 py-5 mt-5">
       <h1 className="pb-10 font-semibold text-2xl">

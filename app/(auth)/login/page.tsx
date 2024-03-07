@@ -17,9 +17,10 @@ import {
 import { loginFormSchema } from "@/lib/validator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { login } from "@/lib/helper";
 const Login = () => {
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
   };
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -27,8 +28,13 @@ const Login = () => {
     defaultValues: initialValues,
   });
 
-  function onSubmit(data: z.infer<typeof loginFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+
+    const result = await login(formData);
+    console.log(result);
   }
 
   return (
@@ -62,15 +68,13 @@ const Login = () => {
                 >
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-bold">
-                          Customer Name *
-                        </FormLabel>
+                        <FormLabel className="font-bold">Email *</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Username"
+                            placeholder="Email"
                             {...field}
                             className="max-w-sm "
                           />

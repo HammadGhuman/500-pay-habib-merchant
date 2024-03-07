@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const requestFormSchema = z.object({
   customerName: z.string().min(1, "Cannot be left empty"),
-  customerEmail: z.string().optional(),
+  customerEmail: z.string(),
   paymentAmount: z.string().min(1, "Cannot be left empty"),
   merchantAcountNumber: z
     .string()
@@ -20,8 +20,9 @@ export const requestFormSchema = z.object({
 });
 
 export const loginFormSchema = z.object({
-  username: z
+  email: z
     .string()
+    .email()
     .min(3, "username should be at least 3 character long")
     .max(50, "username should be less than 50 characters"),
   password: z
