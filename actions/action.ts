@@ -58,10 +58,31 @@ export async function createPaymentRequest(
         paymentAmount: data.paymentAmount,
         paymentPurpose: data.paymentPurpose,
         cusomerId: customer.id,
+        merchantId: merchantID,
       },
     });
 
     console.log(payment);
+
+    if (!payment) {
+      return {
+        success: false,
+        data: "unable to create payment request",
+      };
+    }
+
+    const map = new Map();
+    map.set("00", "02");
+    map.set("01", "11");
+    map.set("02", "31");
+    map.set("03", payment.customerBankName);
+    map.set("04", payment.customerAccountNumber);
+    map.set("05", payment.paymentAmount);
+    map.set("06", payment.paymentPurpose);
+    map.set("07", "reserved");
+    map.set("08", "reserved");
+    map.set("09", "reserved");
+    map.set("10", "1234");
 
     return {
       success: true,

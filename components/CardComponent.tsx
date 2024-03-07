@@ -12,7 +12,7 @@ import { BadgeEuro, CheckCircle, Clock3, X } from "lucide-react";
 const CardComponent = () => {
   return (
     <div className="flex gap-5 items-center mt-5">
-      <Card className="w-full bg-purple-100 hover:border-2 hover:border-purple-500 transition-all duration-100">
+      <Card className="w-full bg-purple-100 border-2 hover:border-purple-500 transition-all duration-100">
         <CardHeader className="flex flex-row items-center justify-between gap-2">
           <CardTitle>All Payments</CardTitle>
           <div className="bg-purple-500 rounded-full p-2">
@@ -28,7 +28,7 @@ const CardComponent = () => {
           </button>
         </CardFooter>
       </Card>
-      <Card className="w-full bg-green-100 hover:border-2 hover:border-green-500  transition-all duration-100">
+      <Card className="w-full bg-green-100 border-2 hover:border-green-500  transition-all duration-100">
         <CardHeader className="flex flex-row items-center justify-between gap-2">
           <CardTitle>Succeeded</CardTitle>
           <div className="rounded-full p-2 bg-green-500">
@@ -44,7 +44,7 @@ const CardComponent = () => {
           </button>
         </CardFooter>
       </Card>
-      <Card className="w-full bg-yellow-100 hover:border-2 hover:border-yellow-500 transition-all duration-100">
+      <Card className="w-full bg-yellow-100 border-2 hover:border-yellow-500 transition-all duration-100">
         <CardHeader className="flex flex-row items-center justify-between gap-2">
           <CardTitle>Pending</CardTitle>
           <div className="bg-yellow-500 p-2 rounded-full">
@@ -60,7 +60,7 @@ const CardComponent = () => {
           </button>
         </CardFooter>
       </Card>
-      <Card className="w-full bg-red-100 hover:border-2 hover:border-red-500  transition-all duration-100">
+      <Card className="w-full bg-red-100 border-2 hover:border-red-500  transition-all duration-100">
         <CardHeader className="flex flex-row items-center justify-between gap-2">
           <CardTitle>Rejected</CardTitle>
           <div className="bg-red-500 rounded-full p-2">
