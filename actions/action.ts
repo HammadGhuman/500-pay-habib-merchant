@@ -2,6 +2,7 @@
 import { requestFormSchema } from "@/lib/validator";
 import * as z from "zod";
 import prisma from "@/util/prismadb";
+import QRCode from "qrcode";
 
 type PaymentRequest = z.infer<typeof requestFormSchema>;
 
@@ -17,7 +18,7 @@ export async function createPaymentRequest(
     }
 
     const { data } = body;
-
+    console.log(data);
     const customer = await prisma.customer.findFirst({
       where: {
         email: data.customerEmail,
@@ -44,10 +45,31 @@ export async function createPaymentRequest(
         },
       });
     }
-    if (!newCustomer) {
-      return { success: false, error: "Error Creating New Customer" };
-    }
 
+    const map = new Map();
+    map.set("00", "02");
+    map.set("01", "11");
+    map.set("02", "31");
+    map.set("03", data.customerBankName);
+    map.set("04", data.customerAccountNumber);
+    map.set("05", data.paymentAmount);
+    map.set("06", data.paymentPurpose);
+    map.set("07", "reserved");
+    map.set("08", "reserved");
+    map.set("09", "reserved");
+    map.set("10", "1234");
+    console.log(map);
+    let mapString = "";
+    map.forEach(([key, value]) => {
+      mapString += `${key}:${value}, `;
+    });
+
+    mapString = mapString.slice(0, -2);
+    console.log(mapString);
+
+    const binaryData = stringToBinary(mapString);
+    const qrcode = await QRCode.toDataURL(binaryData);
+    console.log(qrcode);
     const payment = await prisma.payment.create({
       data: {
         customerAccountNumber: data.customerAccountNumber,
@@ -58,8 +80,14 @@ export async function createPaymentRequest(
         paymentAmount: data.paymentAmount,
         paymentPurpose: data.paymentPurpose,
         cusomerId: customer.id,
+        merchantId: merchantID,
+        qrcode,
       },
     });
+
+    if (!payment) {
+      return { success: false, error: "unable to create payment request" };
+    }
 
     console.log(payment);
 
@@ -73,13 +101,24 @@ export async function createPaymentRequest(
   }
 }
 
+function binaryToString(binary: string) {
+  let str = "";
+  const binaryArray = binary.split(" ");
 
-export async function getPayments() {
-  try {
-    const payments = await prisma.payment.findMany();
-    return {success: true, data: {payments}}
-  } catch (error) {
-    console.log(error)
-    return {success: false, error: "something went wrong"}
+  for (let i = 0; i < binaryArray.length; i++) {
+    const charCode = parseInt(binaryArray[i], 2);
+    const char = String.fromCharCode(charCode);
+    str += char;
   }
+
+  return str;
+}
+
+function stringToBinary(str: string) {
+  let binaryString = "";
+  for (let i = 0; i < str.length; i++) {
+    const binaryChar = str[i].charCodeAt(0).toString(2);
+    binaryString += "0".repeat(8 - binaryChar.length) + binaryChar;
+  }
+  return binaryString;
 }
