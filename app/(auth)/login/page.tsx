@@ -5,7 +5,7 @@ import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -41,7 +41,11 @@ const Login = () => {
     if (result) {
       router.replace("/");
     }
-    console.log(result);
+    if (result) {
+      toast.success("Logged in successfully");
+    } else {
+      toast.error("Something went wrong");
+    }
   }
 
   return (

@@ -10,23 +10,8 @@ function Example() {
     const myChart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
+        labels: ["Jan", "Feb", "March", "April ", "May", "June", "July"],
         datasets: [
-          {
-            data: [66, 144, 146, 116, 107, 131, 43],
-            label: "Applied",
-            borderColor: "rgb(109, 253, 181)",
-            backgroundColor: "rgb(109, 253, 181,0.5)",
-            borderWidth: 2,
-          },
           {
             data: [40, 100, 44, 70, 63, 30, 10],
             label: "Accepted",

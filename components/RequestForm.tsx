@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { requestFormSchema } from "@/lib/validator";
 import Dropdown from "./Dropdown";
 import { createPaymentRequest } from "@/actions/action";
+import { toast } from "sonner";
 
 type User = {
   id: number;
@@ -35,6 +36,13 @@ type Props = {
 };
 
 const RequestForm = ({ user }: Props) => {
+  const [section, setSection] = useState<string>("Bank Habib");
+
+  const handleSectionChange = (e: any) => {
+    console.log(e);
+    setSection(e.target.value);
+  };
+
   const initialValues = {
     customerName: "",
     customerEmail: "",
@@ -50,12 +58,18 @@ const RequestForm = ({ user }: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof requestFormSchema>) {
+    console.log(section);
     console.log(user.id);
     console.log(values);
-    const newValues = { ...values, customerBankName: "Meezan" };
+    const newValues = { ...values, customerBankName: section };
     console.log(newValues);
-    const data = await createPaymentRequest(values, user.id);
+    const data = await createPaymentRequest(newValues, user.id);
     console.log(data);
+    if (data.success) {
+      toast.success("Payment Request has been created");
+      return;
+    }
+    toast.error("Something went wrong!!");
   }
   return (
     <div className="bg-[#FAFAFA] rounded-md px-5 py-5 mt-5">
@@ -144,21 +158,7 @@ const RequestForm = ({ user }: Props) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="customerAccountNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">
-                    Customer Account Number *
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder="Input text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="customerBankName"
@@ -168,10 +168,17 @@ const RequestForm = ({ user }: Props) => {
                     Select Customer Bank Name *
                   </FormLabel>
                   <FormControl>
-                    <Dropdown
-                      onChangeHandler={field.onChange}
-                      value={field.value}
-                    />
+                    <select onChange={handleSectionChange} value={section}>
+                      <option key={1} value={"Habib Bank"}>
+                        Bank Al Habib
+                      </option>
+                      <option key={2} value={"Meezan Bank"}>
+                        Meezan
+                      </option>
+                      <option key={3} value={"Allied Bank"}>
+                        Allied Bank
+                      </option>
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

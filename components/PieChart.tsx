@@ -2,9 +2,9 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js";
 
-function PieChart() {
+function PieChart({ succeeded, rejected, pending }: any) {
   useEffect(() => {
-    const ctx = document.getElementById("myChart") as HTMLCanvasElement;
+    const ctx = document.getElementById("myChart2") as HTMLCanvasElement;
     if (!ctx) return;
 
     const myChart = new Chart(ctx, {
@@ -13,7 +13,7 @@ function PieChart() {
         labels: ["Accepted", "Pending", "Rejected"],
         datasets: [
           {
-            data: [70, 10, 6],
+            data: [succeeded.count, pending.count, rejected.count],
             borderColor: [
               "rgb(75, 192, 192)",
               "rgb(255, 205, 86)",
@@ -52,12 +52,12 @@ function PieChart() {
   return (
     <>
       {/* Doughnut chart */}
-      <h1 className="w-[150px] mx-auto mt-10 text-xl font-semibold capitalize">
-        Doughnut Chart
+      <h1 className="mx-auto mt-10 text-4xl font-semibold capitalize">
+        Pie Chart
       </h1>
-      <div className="w-[1100px] h-screen flex mx-auto my-auto">
+      <div className="w-[1100px] h-screen flex mx-auto -mt-40">
         <div className="border border-gray-400 pt-0 rounded-xl w-full h-fit my-auto shadow-xl pb-2">
-          <canvas id="myChart"></canvas>
+          <canvas id="myChart2"></canvas>
         </div>
       </div>
     </>

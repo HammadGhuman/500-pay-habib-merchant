@@ -12,7 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function DataTableDemo() {
+export function DataTableDemo({ user }: { user: any }) {
+  console.log(user);
   return (
     <div className="mt-10">
       <Table>
@@ -21,19 +22,26 @@ export function DataTableDemo() {
             <TableHead>CUSTOMER</TableHead>
             <TableHead>EMAIL</TableHead>
             <TableHead>PHONE</TableHead>
-            <TableHead>DEFAULT PAYMENT METHOD</TableHead>
             <TableHead>CREATE DATE</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>Subhan</TableCell>
+          {user &&
+            user.map((item: any) => (
+              <TableRow>
+                <TableCell>{item.customer.username}</TableCell>
 
-            <TableCell>subhan@gmail.com</TableCell>
-            <TableCell>03344202595</TableCell>
-            <TableCell>Card Payment</TableCell>
-            <TableCell>Feb 16, 2023</TableCell>
-          </TableRow>
+                <TableCell>{item.customer.email}</TableCell>
+                <TableCell>{item.customer.phoneNumber}</TableCell>
+                <TableCell>
+                  {new Date(item.customer.created_at)
+                    .toUTCString()
+                    .split(" ")
+                    .slice(0, 4)
+                    .join(" ")}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

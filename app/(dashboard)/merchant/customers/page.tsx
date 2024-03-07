@@ -1,8 +1,33 @@
 import { DataTableDemo } from "@/components/DataTableDemo";
 import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/helper";
 import React from "react";
+import prisma from "@/util/prismadb";
+async function getCustomer() {
+  try {
+    const session = await getSession();
+    const customers = await prisma.merchantCustomer.findMany({
+      where: {
+        merchantId: session.userWithoutPassword.id,
+      },
+      include: {
+        customer: true,
+      },
+    });
+    if (customers) {
+      return { success: true, data: customers };
+    } else {
+      return { success: false, error: "No customers" };
+    }
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: "Something went wrong" };
+  }
+}
 
-const page = () => {
+const page = async () => {
+  const customers = await getCustomer();
+  console.log(customers);
   return (
     <div className="container py-10">
       <div className="border-b-2 py-3 flex items-center justify-between">
@@ -19,7 +44,7 @@ const page = () => {
         </div>
       </div>
 
-      <DataTableDemo />
+      <DataTableDemo user={customers.data} />
     </div>
   );
 };

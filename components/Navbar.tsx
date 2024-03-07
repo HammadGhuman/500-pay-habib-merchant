@@ -2,7 +2,9 @@ import React from "react";
 import Logo from "@/public/icons8-wallet-50.png";
 import Image from "next/image";
 import Link from "next/link";
-function Header() {
+import { getSession } from "@/lib/helper";
+async function Header() {
+  const session = await getSession();
   return (
     <header className="fixed w-full">
       <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
@@ -14,15 +16,25 @@ function Header() {
             </span>
           </a>
           <div className="flex items-center lg:order-2">
-            <Link
-              href="/login"
-              className="bg-purple-100 text-purple-500 rounded-md px-3 py-2 hover:bg-purple-500 hover:text-white transition-all duration-300"
-            >
-              Log in
-            </Link>
+            {!session && (
+              <Link
+                href="/login"
+                className="bg-purple-100 text-purple-500 rounded-md px-3 py-2 hover:bg-purple-500 hover:text-white transition-all duration-300"
+              >
+                Log in
+              </Link>
+            )}
+            {session && (
+              <Link
+                href="/merchant"
+                className="bg-purple-100 text-purple-500 rounded-md px-3 py-2 hover:bg-purple-500 hover:text-white transition-all duration-300"
+              >
+                Dashboard
+              </Link>
+            )}
           </div>
           <div
-            className="items-center justify-between lg:flex lg:w-auto lg:order-1"
+            className="items-center justify-between lg:flex lg:w-auto lg:order-1 hidden"
             id="mobile-menu-2"
           >
             <ul className="flex mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">

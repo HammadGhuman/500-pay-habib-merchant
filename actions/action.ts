@@ -41,7 +41,7 @@ export async function createPaymentRequest(
       newCustomer = await prisma.merchantCustomer.create({
         data: {
           customerId: customer.id,
-          merchantId: 1,
+          merchantId: merchantID,
         },
       });
     }

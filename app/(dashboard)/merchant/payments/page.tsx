@@ -13,7 +13,47 @@ async function getPayment() {
       },
     });
     if (payments) {
-      return { success: true, data: payments };
+      let total = {
+        amount: 0,
+        count: 0,
+      };
+      let pending = {
+        amount: 0,
+        count: 0,
+      };
+      let succeeded = {
+        amount: 0,
+        count: 0,
+      };
+      let rejected = {
+        amount: 0,
+        count: 0,
+      };
+
+      payments.forEach((pay) => {
+        if (pay.paymentStatus === "succeeded") {
+          succeeded.amount += parseInt(pay.paymentAmount);
+          succeeded.count += 1;
+        }
+        if (pay.paymentStatus === "rejected") {
+          rejected.amount += parseInt(pay.paymentAmount);
+          rejected.count += 1;
+        }
+        if (pay.paymentStatus === "pending") {
+          pending.amount += parseInt(pay.paymentAmount);
+          pending.count += 1;
+        }
+        (total.amount += parseInt(pay.paymentAmount)), (total.count += 1);
+      });
+      console.log(payments);
+      return {
+        success: true,
+        data: payments,
+        total,
+        succeeded,
+        rejected,
+        pending,
+      };
     } else {
       return { success: false, error: "No Payments" };
     }
@@ -50,7 +90,14 @@ const PaymentPage = async () => {
         </div>
       </div>
       <div className="flex flex-col gap-10">
-        <CardComponent />
+        {payment && (
+          <CardComponent
+            total={payment.total}
+            pending={payment.pending}
+            succeeded={payment.succeeded}
+            rejected={payment.rejected}
+          />
+        )}
         {payment && payment.data && <TableComponent payments={payment.data} />}
       </div>
     </div>

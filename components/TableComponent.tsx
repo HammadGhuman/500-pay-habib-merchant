@@ -9,9 +9,6 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import { getPayments } from "@/actions/action";
-
-const TableComponent = async () => {
 
 type Payment = {
   id: number;
@@ -60,6 +57,20 @@ const TableComponent = ({ payments }: Props) => {
                   <div className="bg-gray-100 text-gray-600 rounded-full ">
                     <TableCell className="text-center w-full">
                       Pending
+                    </TableCell>
+                  </div>
+                )}
+                {item.paymentStatus === "succeeded" && (
+                  <div className="bg-green-100 text-green-600 rounded-full ">
+                    <TableCell className="text-center w-full">
+                      Succeeded
+                    </TableCell>
+                  </div>
+                )}
+                {item.paymentStatus === "rejected" && (
+                  <div className="bg-red-100 text-red-600 rounded-full ">
+                    <TableCell className="text-center w-full">
+                      Rejected
                     </TableCell>
                   </div>
                 )}
