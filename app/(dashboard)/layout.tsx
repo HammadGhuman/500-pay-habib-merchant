@@ -1,8 +1,15 @@
 import NavbarMechant from "@/components/NavbarMechant";
 import Sidebar from "@/components/Sidebar";
+import { getSession } from "@/lib/helper";
+import { redirect } from "next/navigation";
 import React from "react";
 
-function Layout({ children }: { children: React.ReactNode }) {
+async function Layout({ children }: { children: React.ReactNode }) {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/");
+  }
   return (
     <div>
       <div className=" px-4 py-5 border-b-2 ">

@@ -90,14 +90,12 @@ const PaymentPage = async () => {
         </div>
       </div>
       <div className="flex flex-col gap-10">
-        {payment && (
-          <CardComponent
-            total={payment.total}
-            pending={payment.pending}
-            succeeded={payment.succeeded}
-            rejected={payment.rejected}
-          />
-        )}
+        {payment && <CardComponent
+          total={payment.total}
+          pending={payment.pending}
+          succeeded={payment.succeeded}
+          rejected={payment.rejected}
+        />}
         {payment && payment.data && <TableComponent payments={payment.data} />}
       </div>
     </div>
