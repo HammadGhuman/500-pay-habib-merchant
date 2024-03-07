@@ -2,7 +2,6 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,8 +9,9 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
+import { getPayments } from "@/actions/action";
 
-const TableComponent = () => {
+const TableComponent = async () => {
   return (
     <Table>
       <TableHeader>

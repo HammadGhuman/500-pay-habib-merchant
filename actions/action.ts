@@ -72,3 +72,14 @@ export async function createPaymentRequest(
     return { success: false, error: "something went wrong" };
   }
 }
+
+
+export async function getPayments() {
+  try {
+    const payments = await prisma.payment.findMany();
+    return {success: true, data: {payments}}
+  } catch (error) {
+    console.log(error)
+    return {success: false, error: "something went wrong"}
+  }
+}

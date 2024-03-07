@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import chart from "@/public/chart.jpeg";
+import chart from "@/public/undraw_customer_survey_re_v9cj.svg";
 
 const HeroCard = () => {
   return (

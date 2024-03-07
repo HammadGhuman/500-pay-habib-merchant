@@ -14,12 +14,10 @@ export default function Home() {
     <main className="">
       <Navbar />
       <Hero />
-      <Section1 />
       <Section2 />
-      <Section3 />
       <Section4 />
       <PricingCard />
-      <Banner />
+
       <Footer />
     </main>
   );
