@@ -51,7 +51,6 @@ const PaymentPage = async () => {
       </div>
       <div className="flex flex-col gap-10">
         <CardComponent />
-
         {payment && payment.data && <TableComponent payments={payment.data} />}
       </div>
     </div>

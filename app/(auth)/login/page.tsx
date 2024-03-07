@@ -18,7 +18,10 @@ import { loginFormSchema } from "@/lib/validator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { login } from "@/lib/helper";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 const Login = () => {
+  const router = useRouter();
   const initialValues = {
     email: "",
     password: "",
@@ -34,6 +37,9 @@ const Login = () => {
     formData.append("password", data.password);
 
     const result = await login(formData);
+    if (result) {
+      router.replace("/");
+    }
     console.log(result);
   }
 

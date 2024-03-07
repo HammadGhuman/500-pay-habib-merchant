@@ -42,9 +42,12 @@ export async function login(formData: FormData) {
 
       // Save the session in a cookie
       cookies().set("custom_session", session, { expires, httpOnly: true });
+      console.log("hello");
+      return true;
     }
   } catch (err) {
     console.log(err);
+    return false;
   }
 }
 
